@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-icon (click)="goBackPage()" class="back-icon" name="caret-back-outline"></ion-icon>
+    <ion-title>Detalhes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-select label="Tipo" placeholder="Selecione o Tipo" [(ngModel)]="type">
+      <ion-select-option value="0">Fonte de alimentação</ion-select-option>
+      <ion-select-option value="1">Placa mãe</ion-select-option>
+      <ion-select-option value="2">Processador</ion-select-option>
+      <ion-select-option value="3">Cooler</ion-select-option>
+      <ion-select-option value="4">Placa de vídeo</ion-select-option>
+      <ion-select-option value="5">Memória RAM</ion-select-option>
+      <ion-select-option value="6">HD</ion-select-option>
+      <ion-select-option value="7">SSD</ion-select-option>
+      <ion-select-option value="8">Fan</ion-select-option>
+      <ion-select-option value="9">Gabinete</ion-select-option>
+      <ion-select-option value="10">Acessório</ion-select-option>
+      <ion-select-option value="11">Periférico</ion-select-option>
+      <ion-select-option value="12">Notebook</ion-select-option>
+      <ion-select-option value="13">Outro</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-input label="Marca" type="string" [(ngModel)]="brand" placeholder="Insira a marca"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-input label="Modelo" type="string" [(ngModel)]="model" placeholder="Insira o modelo"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-input label="Definições" type="string" [(ngModel)]="definitions" placeholder="Insira as especificações"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-select label="Potência" placeholder="Selecione a potência" [(ngModel)]="power">
+      <ion-select-option value="0">Não especificado</ion-select-option>
+      <ion-select-option value="1">Low-end</ion-select-option>
+      <ion-select-option value="2">Mid-end</ion-select-option>
+      <ion-select-option value="3">High-end</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-button expand="full" (click) = "editPart()">Salvar</ion-button>
+  <ion-button expand="full" (click) = "confirmDelete()" color="danger">Deletar</ion-button>
+</ion-content>

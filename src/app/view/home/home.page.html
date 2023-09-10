@@ -1,0 +1,21 @@
+<ion-content color="light">
+  
+  <ion-header>
+    <ion-toolbar>
+      <ion-icon slot="start" class="tool-bar-icon" name="desktop-outline"></ion-icon>
+      <ion-title>PC Parts List</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-list *ngFor="let part of this.listOfParts; let i = index">
+    <ion-item>
+      <ion-label (click)="goToDetails(i)">{{part.brand}} {{part.model}}</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-fab horizontal="end" vertical="bottom">
+    <ion-fab-button (click)="goToRegister()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
