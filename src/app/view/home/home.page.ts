@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Part } from 'src/app/model/entities/part';
-import { PartsService } from 'src/app/model/services/parts.service';
+import { FirebaseService } from 'src/app/model/services/firebase.service';
 
 @Component({
   selector: 'app-home',
@@ -10,15 +10,16 @@ import { PartsService } from 'src/app/model/services/parts.service';
 })
 export class HomePage {
   listOfParts : Part[] = [];
-  constructor(private router : Router, private partService : PartsService){
-    this.listOfParts = this.partService.getAllParts();
+
+  constructor(private router : Router, private firebase: FirebaseService){
+    this.firebase.getAllParts().subscribe(res => {this.listOfParts = res.map(parts => {return{id:parts.payload.doc.id,...parts.payload.doc.data() as any}as Part})})
   }
 
   goToRegister(){
     this.router.navigate(["/register"]);
   }
 
-  goToDetails(index : number){
-    this.router.navigate(["/details", index])
+  goToDetails(part: Part){
+    this.router.navigateByUrl("/details", {state: {part: part}});
   }
 }

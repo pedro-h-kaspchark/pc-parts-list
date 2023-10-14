@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { Part } from 'src/app/model/entities/part';
-import { PartsService } from 'src/app/model/services/parts.service';
+import { FirebaseService } from 'src/app/model/services/firebase.service';
 
 @Component({
   selector: 'app-details',
@@ -18,39 +18,36 @@ export class DetailsPage implements OnInit {
   power! : number;
   part! : Part;
 
-  constructor(private alertController: AlertController, private actRoute : ActivatedRoute, private router: Router, private partsService : PartsService){}
+  constructor(private alertController: AlertController, private actRoute : ActivatedRoute, private router: Router, private firebase: FirebaseService){}
 
   ngOnInit() {
-    this.actRoute.params.subscribe((params_) => {
-      if(params_["index"]){
-        this.index = params_["index"];
-      }
-
-      this.part = this.partsService.getPartByIndex(this.index);
+    this.part = history.state.part;
       this.type = this.part.type;
       this.brand = this.part.brand;
       this.model = this.part.model;
       this.definitions = this.part.definitions;
       this.power = this.part.power;
-    })
   }
 
   editPart(){
     if(this.type){
       if(this.brand){
         if(this.model){
-          if(this.brand.length >= 2){
-            if(this.model.length >= 2){
-              let new_part : Part = new Part(this.type, this.brand, this.model);
-              new_part.definitions = this.definitions;
-              new_part.power = this.power;
-              this.partsService.updatePart(this.index, new_part);
-              this.router.navigate(['/home']);
-            }else{this.partsService.presentAlert('Erro!', 'O campo modelo deve ter no mínimo dois caracteres!');}
-          }else{this.partsService.presentAlert('Erro!', 'O campo marca deve ter no mínimo dois caracteres!');}
-        }else{this.partsService.presentAlert('Erro!', 'O campo modelo é obrigatório!');}
-      }else{this.partsService.presentAlert('Erro!', 'O campo marca é obrigatório!');}
-    }else{this.partsService.presentAlert('Erro!', 'O campo tipo é obrigatório!');}
+          if(this.definitions){
+            if(this.power){
+              if(this.brand.length >= 2){
+                if(this.model.length >= 2){
+                  let new_part : Part = new Part(this.type, this.brand, this.model);
+                  new_part.definitions = this.definitions;
+                  new_part.power = this.power;
+                  this.firebase.updatePart(new_part, this.part.id).then(() => this.router.navigate(['/home'])).catch((error) => {console.log(error); this.firebase.presentAlert("Erro", "Erro ao atualizar a parte")});
+                }else{this.firebase.presentAlert('Erro!', 'O campo modelo deve ter no mínimo dois caracteres!');}
+              }else{this.firebase.presentAlert('Erro!', 'O campo marca deve ter no mínimo dois caracteres!');}
+            }else{this.firebase.presentAlert('Erro', 'O campo potência é obrigatório!')}
+          }else{this.firebase.presentAlert('Erro', "O campo denifições é obrigatório! ")}
+        }else{this.firebase.presentAlert('Erro!', 'O campo modelo é obrigatório!');}
+      }else{this.firebase.presentAlert('Erro!', 'O campo marca é obrigatório!');}
+    }else{this.firebase.presentAlert('Erro!', 'O campo tipo é obrigatório!');}
   }
 
   confirmDelete(){
@@ -58,8 +55,7 @@ export class DetailsPage implements OnInit {
   }
 
   deletePart(){
-    this.partsService.deletePart(this.index);
-    this.router.navigate(['/home']);
+    this.firebase.deletePart(this.part.id).then(() => {this.router.navigate(["/home"]);}).catch((error => {console.log(error); this.firebase.presentAlert("Erro", "Erro ao excluir a parte!")}));
   }
 
   async presentConfirmAlert(subHeader: string, message: string) {
@@ -76,6 +72,6 @@ export class DetailsPage implements OnInit {
   }
 
   goBackPage(){
-    this.partsService.goBackPage();
+    this.firebase.goBackPage();
   }
 }

@@ -4,6 +4,7 @@ export class Part {
     private _model: string;
     private _definitions!: string;
     private _power!: number;
+    private _id!: string;
 
     constructor(type : number, brand : string, model : string){
         this._type = type;
@@ -44,5 +45,12 @@ export class Part {
     }
     public set power(power: number) {
         this._power = power;
+    }
+
+    public get id(): string {
+        return this._id;
+    }
+    public set id(value: string) {
+        this._id = value;
     }
 }

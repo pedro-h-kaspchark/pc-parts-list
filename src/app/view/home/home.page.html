@@ -7,9 +7,9 @@
     </ion-toolbar>
   </ion-header>
   
-  <ion-list *ngFor="let part of this.listOfParts; let i = index">
+  <ion-list *ngFor="let part of this.listOfParts">
     <ion-item>
-      <ion-label (click)="goToDetails(i)">{{part.brand}} {{part.model}}</ion-label>
+      <ion-label (click)="goToDetails(part)">{{part.brand}} {{part.model}}</ion-label>
     </ion-item>
   </ion-list>
 
