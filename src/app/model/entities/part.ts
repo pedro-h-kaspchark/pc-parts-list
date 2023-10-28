@@ -5,6 +5,7 @@ export class Part {
     private _definitions!: string;
     private _power!: number;
     private _id!: string;
+    private _downloadURL: any;
 
     constructor(type : number, brand : string, model : string){
         this._type = type;
@@ -52,5 +53,12 @@ export class Part {
     }
     public set id(value: string) {
         this._id = value;
+    }
+
+    public get downloadURL(): any {
+        return this._downloadURL;
+    }
+    public set downloadURL(value: any) {
+        this._downloadURL = value;
     }
 }

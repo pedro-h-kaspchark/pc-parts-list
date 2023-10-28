@@ -9,6 +9,7 @@
   
   <ion-list *ngFor="let part of this.listOfParts">
     <ion-item>
+      <ion-avatar><img src="{{part.downloadURL}}"></ion-avatar>
       <ion-label (click)="goToDetails(part)">{{part.brand}} {{part.model}}</ion-label>
     </ion-item>
   </ion-list>

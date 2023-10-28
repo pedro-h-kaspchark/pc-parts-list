@@ -17,6 +17,7 @@ export class DetailsPage implements OnInit {
   definitions! : string;
   power! : number;
   part! : Part;
+  imagem!: any;
 
   constructor(private alertController: AlertController, private actRoute : ActivatedRoute, private router: Router, private firebase: FirebaseService){}
 
@@ -27,6 +28,9 @@ export class DetailsPage implements OnInit {
       this.model = this.part.model;
       this.definitions = this.part.definitions;
       this.power = this.part.power;
+  }
+  uploadFile(imagem: any){
+    this.imagem = imagem.files;
   }
 
   editPart(){
@@ -40,7 +44,12 @@ export class DetailsPage implements OnInit {
                   let new_part : Part = new Part(this.type, this.brand, this.model);
                   new_part.definitions = this.definitions;
                   new_part.power = this.power;
-                  this.firebase.updatePart(new_part, this.part.id).then(() => this.router.navigate(['/home'])).catch((error) => {console.log(error); this.firebase.presentAlert("Erro", "Erro ao atualizar a parte")});
+                  if(this.imagem){
+                    this.firebase.uploadImage(this.imagem, new_part)?.then(() => {this.router.navigate(["/home"]);})
+                  }else{new_part.downloadURL = this.part.downloadURL;
+                    this.firebase.updatePart(new_part, this.part.id).then(() => this.router.navigate(["/home"]))
+                    .catch((error) => {console.log(error); this.firebase.presentAlert("Erro", "Erro ao atualizar a parte!")});
+                  }
                 }else{this.firebase.presentAlert('Erro!', 'O campo modelo deve ter no mínimo dois caracteres!');}
               }else{this.firebase.presentAlert('Erro!', 'O campo marca deve ter no mínimo dois caracteres!');}
             }else{this.firebase.presentAlert('Erro', 'O campo potência é obrigatório!')}

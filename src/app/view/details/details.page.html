@@ -46,6 +46,12 @@
     </ion-select>
   </ion-item>
 
+  <img src="{{this.part.downloadURL}}">
+  <ion-item>
+    <ion-button size="default" color="success" shape="round">
+      <input type="file" (change)="uploadFile($event.target)">
+    </ion-button>
+  </ion-item>
   <ion-button expand="full" (click) = "editPart()">Salvar</ion-button>
   <ion-button expand="full" (click) = "confirmDelete()" color="danger">Deletar</ion-button>
 </ion-content>

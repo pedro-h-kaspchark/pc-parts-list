@@ -14,10 +14,14 @@ export class RegisterPage implements OnInit {
   public model! : string;
   public definitions! : string;
   public power! : number;
+  public imagem!: any;
 
   constructor(private firebase: FirebaseService, private router : Router){}
 
   ngOnInit() {
+  }
+  uploadFile(imagem: any){
+    this.imagem = imagem.files;
   }
 
   register(){
@@ -31,7 +35,11 @@ export class RegisterPage implements OnInit {
                   let new_part : Part = new Part(this.type, this.brand, this.model);
                   new_part.definitions = this.definitions;
                   new_part.power = this.power;
-                  this.firebase.registerPart(new_part).then(() => this.router.navigate(['/home'])).catch((error) => {console.log(error); this.firebase.presentAlert("Erro", "Erro ao salvar as partes!")});
+                  if(this.imagem){
+                    this.firebase.uploadImage(this.imagem, new_part)?.then(() =>{this.router.navigate(['/home'])})
+                  }else{
+                    this.firebase.registerPart(new_part).then(() => this.router.navigate(['/home'])).catch((error) => {console.log(error); this.firebase.presentAlert("Erro", "Erro ao salvar as partes!")});
+                  }
                 }else{this.firebase.presentAlert('Erro!', 'O campo modelo deve ter no mínimo dois caracteres!');}
               }else{this.firebase.presentAlert('Erro!', 'O campo marca deve ter no mínimo dois caracteres!');}
             }else{this.firebase.presentAlert('Erro', 'O campo potência é obrigatório!')}
