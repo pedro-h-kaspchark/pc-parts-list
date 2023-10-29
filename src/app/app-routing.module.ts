@@ -12,12 +12,12 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'register',
-    loadChildren: () => import('./view/register/register.module').then( m => m.RegisterPageModule)
+    path: 'cadastrar',
+    loadChildren: () => import('./view/cadastrar/cadastrar.module').then( m => m.CadastrarPageModule)
   },
   {
-    path: 'details',
-    loadChildren: () => import('./view/details/details.module').then( m => m.DetailsPageModule)
+    path: 'detalhar',
+    loadChildren: () => import('./view/detalhar/detalhar.module').then( m => m.DetalharPageModule)
   },
 ];
 

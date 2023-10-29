@@ -1,3 +1,4 @@
+import { state } from '@angular/animations';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Part } from 'src/app/model/entities/part';
@@ -9,17 +10,17 @@ import { FirebaseService } from 'src/app/model/services/firebase.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  listOfParts : Part[] = [];
+  public listOfParts : Part[] = [];
 
-  constructor(private router : Router, private firebase: FirebaseService){
-    this.firebase.getAllParts().subscribe(res => {this.listOfParts = res.map(parts => {return{id:parts.payload.doc.id,...parts.payload.doc.data() as any}as Part})})
-  }
+  constructor(private router : Router, private firebase: FirebaseService) {
+      this.firebase.getAllParts().subscribe(res => {this.listOfParts = res.map(part => {return{id:part.payload.doc.id,...part.payload.doc.data() as any}as Part})})
+    }
 
   goToRegister(){
-    this.router.navigate(["/register"]);
+    this.router.navigate(["/cadastrar"]);
   }
 
   goToDetails(part: Part){
-    this.router.navigateByUrl("/details", {state: {part: part}});
+    this.router.navigateByUrl("/detalhar", {state: {part: part}});
   }
 }

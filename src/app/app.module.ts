@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment.prod';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
-import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage'
 
 @NgModule({
   declarations: [AppComponent],

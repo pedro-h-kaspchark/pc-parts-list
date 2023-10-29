@@ -1,22 +1,25 @@
-<ion-content color="light">
-  
-  <ion-header>
-    <ion-toolbar>
-      <ion-icon slot="start" class="tool-bar-icon" name="desktop-outline"></ion-icon>
-      <ion-title>PC Parts List</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  
+<ion-header>
+  <ion-toolbar>
+    <ion-icon slot="start" class="tool-bar-icon" name="desktop-outline"></ion-icon>
+    <ion-title>PC Parts List</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
   <ion-list *ngFor="let part of this.listOfParts">
-    <ion-item>
-      <ion-avatar><img src="{{part.downloadURL}}"></ion-avatar>
-      <ion-label (click)="goToDetails(part)">{{part.brand}} {{part.model}}</ion-label>
-    </ion-item>
+  <ion-item>
+    <ion-avatar><img src="{{part.downloadURL}}"></ion-avatar>
+    <ion-label>{{part.brand}} {{part.model}}</ion-label>
+    <ion-icon (click)="goToDetails(part)" class="3pontos" name="ellipsis-vertical-outline"></ion-icon>
+  </ion-item>
   </ion-list>
+
 
   <ion-fab horizontal="end" vertical="bottom">
     <ion-fab-button (click)="goToRegister()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
+
 </ion-content>
