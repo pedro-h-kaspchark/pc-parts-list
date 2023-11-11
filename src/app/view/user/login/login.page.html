@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Bem vindo</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <form [formGroup]="loginForm" (ngSubmit)="submitForm()" novalidate>
+      <ion-item>
+        <ion-label position="floating">E-mail</ion-label>
+        <ion-input type="email" formControlName="email"></ion-input>
+      </ion-item>
+      <!--Mensagens de Erro-->
+      <span *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.errors?.['required']">Email é obrigatório</span>
+      <span *ngIf="loginForm.get('email')?.dirty && loginForm.get('email')?.errors?.['email']">Formato de Email Inválido</span>
+      <!--Mensagens de Erro-->
+      <ion-item>
+        <ion-label position="floating">Senha</ion-label>
+        <ion-input type="password" formControlName="password"></ion-input>
+      </ion-item>
+      <!--Mensagens de Erro-->
+      <span *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.errors?.['required']">Senha é obrigatória</span>
+      <span  *ngIf="loginForm.get('password')?.dirty && loginForm.get('password')?.errors?.['minlength']">A senha é de no mínimo 6 caracteres</span>
+      <!--Mensagens de Erro-->
+      <ion-button expand="full" color="success" type="submit">Entrar</ion-button>
+      <ion-button expand="full" color="danger" (click)="loginWithGmail()">
+        Entrar com Google <ion-icon slot="end" name="logo-google"></ion-icon>
+      </ion-button>
+    </form>
+    <ion-label>Não tem cadastro?</ion-label>
+    <a (click)="goToRegister()"> Clique Aqui!</a>
+  </ion-list>
+</ion-content>
