@@ -24,9 +24,8 @@
       <span  *ngIf="loginForm.get('password')?.dirty && loginForm.get('password')?.errors?.['minlength']">A senha é de no mínimo 6 caracteres</span>
       <!--Mensagens de Erro-->
       <ion-button expand="full" color="success" type="submit">Entrar</ion-button>
-      <ion-button expand="full" color="danger" (click)="loginWithGmail()">
-        Entrar com Google <ion-icon slot="end" name="logo-google"></ion-icon>
-      </ion-button>
+      <ion-button expand="full" color="danger" (click)="loginWithGmail()"> Entrar com Google <ion-icon slot="end" name="logo-google"></ion-icon></ion-button>
+      <ion-button expand="full" color="dark" (click)="loginWithGithub()"> Entrar com GitHub <ion-icon slot="end" name="logo-github"></ion-icon></ion-button>
     </form>
     <ion-label>Não tem cadastro?</ion-label>
     <a (click)="goToRegister()"> Clique Aqui!</a>

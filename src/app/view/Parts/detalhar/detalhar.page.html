@@ -1,57 +1,67 @@
 <ion-header>
   <ion-toolbar>
     <ion-icon (click)="goBackPage()" class="back-icon" name="caret-back-outline"></ion-icon>
-    <ion-title>Detalhes</ion-title>
+    <ion-title>Editar Detalhes</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-item>
-    <ion-select label="Tipo" placeholder="Selecione o Tipo" [(ngModel)]="type">
-      <ion-select-option value="0">Fonte de alimentação</ion-select-option>
-      <ion-select-option value="1">Placa mãe</ion-select-option>
-      <ion-select-option value="2">Processador</ion-select-option>
-      <ion-select-option value="3">Cooler</ion-select-option>
-      <ion-select-option value="4">Placa de vídeo</ion-select-option>
-      <ion-select-option value="5">Memória RAM</ion-select-option>
-      <ion-select-option value="6">HD</ion-select-option>
-      <ion-select-option value="7">SSD</ion-select-option>
-      <ion-select-option value="8">Fan</ion-select-option>
-      <ion-select-option value="9">Gabinete</ion-select-option>
-      <ion-select-option value="10">Acessório</ion-select-option>
-      <ion-select-option value="11">Periférico</ion-select-option>
-      <ion-select-option value="12">Notebook</ion-select-option>
-      <ion-select-option value="13">Outro</ion-select-option>
-    </ion-select>
-  </ion-item>
-
-  <ion-item>
-    <ion-input label="Marca" type="string" [(ngModel)]="brand" placeholder="Insira a marca"></ion-input>
-  </ion-item>
-
-  <ion-item>
-    <ion-input label="Modelo" type="string" [(ngModel)]="model" placeholder="Insira o modelo"></ion-input>
-  </ion-item>
-
-  <ion-item>
-    <ion-input label="Definições" type="string" [(ngModel)]="definitions" placeholder="Insira as especificações"></ion-input>
-  </ion-item>
-
-  <ion-item>
-    <ion-select label="Potência" placeholder="Selecione a potência" [(ngModel)]="power">
-      <ion-select-option value="0">Não especificado</ion-select-option>
-      <ion-select-option value="1">Low-end</ion-select-option>
-      <ion-select-option value="2">Mid-end</ion-select-option>
-      <ion-select-option value="3">High-end</ion-select-option>
-    </ion-select>
-  </ion-item>
-
-  <img src="{{this.part.downloadURL}}">
-  <ion-item>
-    <ion-button size="default" color="success" shape="round">
-      <input type="file" (change)="uploadFile($event.target)">
-    </ion-button>
-  </ion-item>
-  <ion-button expand="full" (click) = "editPart()">Salvar</ion-button>
-  <ion-button expand="full" (click) = "confirmDelete()" color="danger">Deletar</ion-button>
+  <form [formGroup]="detailsForm" (ngSubmit)="submitForm()" novalidate>
+    <ion-item>
+      <ion-label>Tipo</ion-label>
+      <ion-select formControlName="type" placeholder="Selecione o Tipo">
+        <ion-select-option value="0">Fonte de alimentação</ion-select-option>
+        <ion-select-option value="1">Placa mãe</ion-select-option>
+        <ion-select-option value="2">Processador</ion-select-option>
+        <ion-select-option value="3">Cooler</ion-select-option>
+        <ion-select-option value="4">Placa de vídeo</ion-select-option>
+        <ion-select-option value="5">Memória RAM</ion-select-option>
+        <ion-select-option value="6">HD</ion-select-option>
+        <ion-select-option value="7">SSD</ion-select-option>
+        <ion-select-option value="8">Fan</ion-select-option>
+        <ion-select-option value="9">Gabinete</ion-select-option>
+        <ion-select-option value="10">Acessório</ion-select-option>
+        <ion-select-option value="11">Periférico</ion-select-option>
+        <ion-select-option value="12">Notebook</ion-select-option>
+        <ion-select-option value="13">Outro</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <span *ngIf="detailsForm.get('type')?.touched && detailsForm.get('type')?.errors?.['required']">O campo tipo é obrigatório</span>
+    <ion-item>
+      <ion-label>Marca</ion-label>
+      <ion-input formControlName="brand" type="text" placeholder="Insira a marca"></ion-input>
+    </ion-item>
+    <span *ngIf="detailsForm.get('brand')?.touched && detailsForm.get('brand')?.errors?.['required']">O campo marca é obrigatório</span>
+    <span *ngIf="detailsForm.get('brand')?.dirty && detailsForm.get('brand')?.errors?.['minlength']">O campo marca é de no minimo 2 caracteres</span>
+    <ion-item>
+      <ion-label>Modelo</ion-label>
+      <ion-input formControlName="model" type="text" placeholder="Insira o modelo"></ion-input>
+    </ion-item>
+    <span *ngIf="detailsForm.get('model')?.touched && detailsForm.get('model')?.errors?.['required']">O campo modelo é obrigatório</span>
+    <span *ngIf="detailsForm.get('model')?.dirty && detailsForm.get('model')?.errors?.['minlength']">O campo modelo é de no minimo 2 caracteres</span>
+    <ion-item>
+      <ion-label>Definições</ion-label>
+      <ion-input formControlName="definitions" type="text" placeholder="Insira as especificações"></ion-input>
+    </ion-item>
+    <span *ngIf="detailsForm.get('definitions')?.touched && detailsForm.get('definitions')?.errors?.['required']">O campo definições é obrigatório</span>
+    <ion-item>
+      <ion-label>Potência</ion-label>
+      <ion-select formControlName="power" placeholder="Selecione a potência">
+        <ion-select-option value="0">Não especificado</ion-select-option>
+        <ion-select-option value="1">Low-end</ion-select-option>
+        <ion-select-option value="2">Mid-end</ion-select-option>
+        <ion-select-option value="3">High-end</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <span *ngIf="detailsForm.get('power')?.touched && detailsForm.get('power')?.errors?.['required']">O campo Potência é obrigatório</span>
+    <img [src]="detailsForm.get('downloadURL')?.value">
+    <ion-item>
+      <ion-button size="default" color="success" shape="round">
+        <input type="file" (change)="uploadFile($event)">
+      </ion-button>
+    </ion-item>
+    <span *ngIf="detailsForm.get('imagem')?.touched && detailsForm.get('imagem')?.errors?.['required']">O campo imagem é obrigatório</span>
+    <ion-button expand="full" type="submit" [disabled]="!detailsForm.valid">Salvar</ion-button>
+    <ion-button expand="full" (click)="confirmDelete()" color="danger">Deletar</ion-button>
+  </form>
 </ion-content>

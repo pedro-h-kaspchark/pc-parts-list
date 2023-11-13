@@ -4,6 +4,7 @@ import { Alert } from 'src/app/common/alert';
 import { confirmAlert } from 'src/app/common/confirmAlert';
 import { GoBackPage } from 'src/app/common/goBackPage';
 import { Part } from 'src/app/model/entities/part';
+import { AuthService } from 'src/app/model/services/auth.service';
 import { FirebaseService } from 'src/app/model/services/firebase.service';
 
 @Component({
@@ -19,10 +20,11 @@ export class DetalharPage implements OnInit {
   power! : number;
   part! : Part;
   imagem!: any;
+  user: any;
 
-  constructor(private firebase: FirebaseService, private router: Router, private alert: Alert, private confirmAlert: confirmAlert, private goBack: GoBackPage) {
-  
-   }
+  constructor(private firebase: FirebaseService, private router: Router, private alert: Alert, private confirmAlert: confirmAlert, private goBack: GoBackPage, private auth: AuthService){
+    this.user = this.auth.getUserLogged();
+  }
 
   ngOnInit() {
     this.part = history.state.part;
@@ -48,6 +50,7 @@ export class DetalharPage implements OnInit {
                   let new_part : Part = new Part(this.type, this.brand, this.model);
                   new_part.definitions = this.definitions;
                   new_part.power = this.power;
+                  new_part.uid = this.user.uid;
                   if(this.imagem){
                     this.firebase.uploadImage(this.imagem, new_part)?.then(() => {this.router.navigate(["/home"]);})
                     this.firebase.deletePart(this.part.id);

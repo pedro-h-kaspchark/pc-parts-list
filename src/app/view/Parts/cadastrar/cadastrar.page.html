@@ -8,8 +8,9 @@
 </ion-header>
 
 <ion-content>
+  <form [formGroup]="registerForm" (ngSubmit)="submitForm()" novalidate>
     <ion-item>
-      <ion-select label="Tipo" placeholder="Selecione o Tipo" [(ngModel)]="type">
+      <ion-select label="Tipo" placeholder="Selecione o Tipo" formControlName="type">
         <ion-select-option value="0">Fonte de alimentação</ion-select-option>
         <ion-select-option value="1">Placa mãe</ion-select-option>
         <ion-select-option value="2">Processador</ion-select-option>
@@ -26,33 +27,36 @@
         <ion-select-option value="13">Outro</ion-select-option>
       </ion-select>
     </ion-item>
-
+    <span *ngIf="registerForm.get('type')?.touched && registerForm.get('type')?.errors?.['required']">O campo tipo é obrigatório</span>
     <ion-item>
-      <ion-input label="Marca" type="string" [(ngModel)]="brand" placeholder="Insira a marca"></ion-input>
+      <ion-input label="Marca" type="string" formControlName="brand" placeholder="Insira a marca"></ion-input>
     </ion-item>
-
+    <span *ngIf="registerForm.get('brand')?.touched && registerForm.get('brand')?.errors?.['required']">O campo marca é obrigatório</span>
+    <span *ngIf="registerForm.get('brand')?.dirty && registerForm.get('brand')?.errors?.['minlength']">O campo marca é de no minimo 2 caracteres</span>
     <ion-item>
-      <ion-input label="Modelo" type="string" [(ngModel)]="model" placeholder="Insira o modelo"></ion-input>
+      <ion-input label="Modelo" type="string" formControlName="model" placeholder="Insira o modelo"></ion-input>
     </ion-item>
-
+    <span *ngIf="registerForm.get('model')?.touched && registerForm.get('model')?.errors?.['required']">O campo modelo é obrigatório</span>
+    <span *ngIf="registerForm.get('model')?.dirty && registerForm.get('model')?.errors?.['minlength']">O campo modelo é de no minimo 2 caracteres</span>
     <ion-item>
-      <ion-input label="Definições" type="string" [(ngModel)]="definitions" placeholder="Insira as especificações"></ion-input>
+      <ion-input label="Definições" type="string" formControlName="definitions" placeholder="Insira as especificações"></ion-input>
     </ion-item>
-
+    <span *ngIf="registerForm.get('definitions')?.touched && registerForm.get('definitions')?.errors?.['required']">O campo definições é obrigatório</span>
     <ion-item>
-      <ion-select label="Potência" placeholder="Selecione a potência" [(ngModel)]="power">
+      <ion-select label="Potência" placeholder="Selecione a potência" formControlName="power">
         <ion-select-option value="0">Não especificado</ion-select-option>
         <ion-select-option value="1">Low-end</ion-select-option>
         <ion-select-option value="2">Mid-end</ion-select-option>
         <ion-select-option value="3">High-end</ion-select-option>
       </ion-select>
     </ion-item>
-
+    <span *ngIf="registerForm.get('power')?.touched && registerForm.get('power')?.errors?.['required']">O campo Potência é obrigatório</span>
     <ion-item>
       <ion-button size="default" color="success" shape="round">
-        <input type="file" (change)="uploadFile($event.target)">
+        <input type="file" (change)="uploadFile($event)">
       </ion-button>
     </ion-item>
-
-    <ion-button expand="full" (click) = "register()">Cadastrar</ion-button>
+    <span *ngIf="registerForm.get('imagem')?.touched && registerForm.get('imagem')?.errors?.['required']">O campo imagem é obrigatório</span>
+    <ion-button expand="full" type="submit" [disabled]="!registerForm.valid">Cadastrar</ion-button>
+  </form>
 </ion-content>

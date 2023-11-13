@@ -53,6 +53,9 @@ export class LoginPage implements OnInit {
       this.alert.presentAlert("OK", "Erro ao Logar! Tente Novamente");
       console.log(error); })
   }
+  loginWithGithub(){
+    
+  }
   goToRegister(){
     this.router.navigate(["/register"]);
   }

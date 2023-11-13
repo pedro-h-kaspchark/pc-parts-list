@@ -10,6 +10,6 @@ export class GoBackPage{
     constructor(private router: Router){}
 
     goBackPage(){
-        this.router.navigate(['../'])
+        this.router.navigate(['/home'])
       }
 }
