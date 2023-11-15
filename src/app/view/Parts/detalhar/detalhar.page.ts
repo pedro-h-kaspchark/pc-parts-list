@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Alert } from 'src/app/common/alert';
 import { confirmAlert } from 'src/app/common/confirmAlert';
@@ -13,69 +14,87 @@ import { FirebaseService } from 'src/app/model/services/firebase.service';
   styleUrls: ['./detalhar.page.scss'],
 })
 export class DetalharPage implements OnInit {
-  type! : number;
-  brand! : string;
-  model! : string;
-  definitions! : string;
-  power! : number;
-  part! : Part;
-  imagem!: any;
+  detailsForm!: FormGroup;
   user: any;
+  part!: Part;
+  imagem: any;
 
-  constructor(private firebase: FirebaseService, private router: Router, private alert: Alert, private confirmAlert: confirmAlert, private goBack: GoBackPage, private auth: AuthService){
+  constructor(
+    private firebase: FirebaseService, private router: Router, private alert: Alert, private confirmAlert: confirmAlert, private goBack: GoBackPage, private auth: AuthService, private formBuilder: FormBuilder) {
     this.user = this.auth.getUserLogged();
   }
 
   ngOnInit() {
     this.part = history.state.part;
-    this.type = this.part.type;
-    this.brand = this.part.brand;
-    this.model = this.part.model;
-    this.definitions = this.part.definitions;
-    this.power = this.part.power;
 
+    this.detailsForm = this.formBuilder.group({
+      type: [this.part.type, [Validators.required]],
+      brand: [this.part.brand, [Validators.required, Validators.minLength(2)]],
+      model: [this.part.model, [Validators.required, Validators.minLength(2)]],
+      definitions: [this.part.definitions, [Validators.required]],
+      power: [this.part.power, [Validators.required]],
+      imagem: [null, [Validators.required]],
+    });
   }
 
-  uploadFile(imagem: any){
-    this.imagem = imagem.files;
+  uploadFile(event: any) {
+    const imagem = event.target.files;
+
+    if (imagem && imagem.length > 0) {
+      this.detailsForm.patchValue({ imagem: imagem });
+    }
   }
-  editPart(){
-    if(this.type){
-      if(this.brand){
-        if(this.model){
-          if(this.definitions){
-            if(this.power){
-              if(this.brand.length >= 2){
-                if(this.model.length >= 2){
-                  let new_part : Part = new Part(this.type, this.brand, this.model);
-                  new_part.definitions = this.definitions;
-                  new_part.power = this.power;
-                  new_part.uid = this.user.uid;
-                  if(this.imagem){
-                    this.firebase.uploadImage(this.imagem, new_part)?.then(() => {this.router.navigate(["/home"]);})
-                    this.firebase.deletePart(this.part.id);
-                  }else{new_part.downloadURL = this.part.downloadURL;
-                    this.firebase.updatePart(new_part, this.part.id).then(() => this.router.navigate(["/home"]))
-                    .catch((error) => {console.log(error); this.alert.presentAlert("Erro", "Erro ao atualizar a parte!")});
-                  }
-                }else{this.alert.presentAlert('Erro!', 'O campo modelo deve ter no mínimo dois caracteres!');}
-              }else{this.alert.presentAlert('Erro!', 'O campo marca deve ter no mínimo dois caracteres!');}
-            }else{this.alert.presentAlert('Erro', 'O campo potência é obrigatório!')}
-          }else{this.alert.presentAlert('Erro', "O campo denifições é obrigatório! ")}
-        }else{this.alert.presentAlert('Erro!', 'O campo modelo é obrigatório!');}
-      }else{this.alert.presentAlert('Erro!', 'O campo marca é obrigatório!');}
-    }else{this.alert.presentAlert('Erro!', 'O campo tipo é obrigatório!');}
+
+  editPart() {
+    if (this.detailsForm.valid) {
+      const new_part: Part = {
+        ...this.detailsForm.value,
+        uid: this.user.uid,
+        id: this.part.id,
+        downloadURL: this.part.downloadURL,
+      };
+
+      if (this.imagem) {
+        this.firebase.uploadImage(this.imagem, new_part)?.then(() => {
+          this.firebase.deletePart(this.part.id);
+          this.router.navigate(['/home']);
+        });
+      } else {
+        this.firebase
+          .updatePart(new_part, this.part.id)
+          .then(() => this.router.navigate(['/home']))
+          .catch((error) => {
+            console.log(error);
+            this.alert.presentAlert('Erro', 'Erro ao atualizar a parte!');
+          });
+      }
+    } else {
+      this.alert.presentAlert('Erro!', 'Verifique os campos obrigatórios!');
+    }
   }
-  
-  confirmDelete(){
-    this.confirmAlert.presentConfirmAlert("ATENÇÃO", "Deseja realmente excluir a Parte?", (confirmed) => {if(confirmed){this.deletePart()}})
+
+
+  confirmDelete() {
+    this.confirmAlert.presentConfirmAlert('ATENÇÃO', 'Deseja realmente excluir a Parte?', (confirmed) => {
+      if (confirmed) {
+        this.deletePart();
+      }
+    });
   }
-    
-  deletePart(){
-    this.firebase.deletePart(this.part.id).then(() => {this.router.navigate(["/home"]);})
-    .catch((error) => {console.log(error); this.alert.presentAlert("Erro", "Erro ao excluir a Parte!")});
+
+  deletePart() {
+    this.firebase
+      .deletePart(this.part.id)
+      .then(() => {
+        this.router.navigate(['/home']);
+      })
+      .catch((error) => {
+        console.log(error);
+        this.alert.presentAlert('Erro', 'Erro ao excluir a Parte!');
+      });
   }
-  goBackPage(){
+
+  goBackPage() {
     this.goBack.goBackPage();
   }
 }

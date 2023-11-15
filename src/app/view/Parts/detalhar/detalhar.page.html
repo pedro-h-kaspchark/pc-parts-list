@@ -5,8 +5,8 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <form [formGroup]="detailsForm" (ngSubmit)="submitForm()" novalidate>
+<ion-content fullscreen="true">
+  <form [formGroup]="detailsForm" (ngSubmit)="editPart()" novalidate>
     <ion-item>
       <ion-label>Tipo</ion-label>
       <ion-select formControlName="type" placeholder="Selecione o Tipo">
@@ -54,14 +54,14 @@
       </ion-select>
     </ion-item>
     <span *ngIf="detailsForm.get('power')?.touched && detailsForm.get('power')?.errors?.['required']">O campo Potência é obrigatório</span>
-    <img [src]="detailsForm.get('downloadURL')?.value">
+    <img src="{{part.downloadURL}}">
     <ion-item>
       <ion-button size="default" color="success" shape="round">
         <input type="file" (change)="uploadFile($event)">
       </ion-button>
     </ion-item>
     <span *ngIf="detailsForm.get('imagem')?.touched && detailsForm.get('imagem')?.errors?.['required']">O campo imagem é obrigatório</span>
-    <ion-button expand="full" type="submit" [disabled]="!detailsForm.valid">Salvar</ion-button>
+    <ion-button expand="full" type="submit">Salvar</ion-button>
     <ion-button expand="full" (click)="confirmDelete()" color="danger">Deletar</ion-button>
   </form>
 </ion-content>
