@@ -33,40 +33,29 @@ export class DetalharPage implements OnInit {
       model: [this.part.model, [Validators.required, Validators.minLength(2)]],
       definitions: [this.part.definitions, [Validators.required]],
       power: [this.part.power, [Validators.required]],
-      imagem: [null, [Validators.required]],
+      imagem: [null],
     });
   }
 
   uploadFile(event: any) {
-    const imagem = event.target.files;
-
-    if (imagem && imagem.length > 0) {
-      this.detailsForm.patchValue({ imagem: imagem });
-    }
+    this.imagem = event.target.files;
   }
 
   editPart() {
     if (this.detailsForm.valid) {
-      const new_part: Part = {
-        ...this.detailsForm.value,
-        uid: this.user.uid,
-        id: this.part.id,
-        downloadURL: this.part.downloadURL,
-      };
+      const new_part: Part = {...this.detailsForm.value,uid: this.user.uid,id: this.part.id,downloadURL: this.part.downloadURL};
 
       if (this.imagem) {
         this.firebase.uploadImage(this.imagem, new_part)?.then(() => {
-          this.firebase.deletePart(this.part.id);
-          this.router.navigate(['/home']);
+          this.router.navigate(['/home'])
         });
       } else {
-        this.firebase
-          .updatePart(new_part, this.part.id)
-          .then(() => this.router.navigate(['/home']))
-          .catch((error) => {
-            console.log(error);
-            this.alert.presentAlert('Erro', 'Erro ao atualizar a parte!');
-          });
+        new_part.downloadURL = this.part.downloadURL;
+
+        this.firebase.updatePart(new_part, this.part.id).then(() => this.router.navigate(['/home'])).catch((error) => {
+          console.log(error);
+          this.alert.presentAlert('Erro', 'Erro ao atualizar a parte!');
+        });
       }
     } else {
       this.alert.presentAlert('Erro!', 'Verifique os campos obrigatórios!');
@@ -76,20 +65,17 @@ export class DetalharPage implements OnInit {
 
   confirmDelete() {
     this.confirmAlert.presentConfirmAlert('ATENÇÃO', 'Deseja realmente excluir a Parte?', (confirmed) => {
-      if (confirmed) {
+      if(confirmed){
         this.deletePart();
       }
     });
   }
 
   deletePart() {
-    this.firebase
-      .deletePart(this.part.id)
-      .then(() => {
+    this.firebase.deletePart(this.part.id).then(() => {
         this.router.navigate(['/home']);
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((error) => {console.log(error);
         this.alert.presentAlert('Erro', 'Erro ao excluir a Parte!');
       });
   }

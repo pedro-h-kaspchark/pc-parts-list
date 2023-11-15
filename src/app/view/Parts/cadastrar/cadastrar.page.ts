@@ -45,15 +45,7 @@ export class CadastrarPage implements OnInit {
     this.registerForm.patchValue({ imagem: imagem });
   }
 }
-  submitForm(){
-    if(!this.registerForm.valid){
-      this.alert.presentAlert("OK", "Erro ao cadastrar!");
-    }else{
-      this.register();
-    }
-  }
-
-  private register(){
+   register(){
     if(this.registerForm.valid){
       const new_part: Part = new Part(
         this.registerForm.value.type,
@@ -69,16 +61,13 @@ export class CadastrarPage implements OnInit {
           this.router.navigate(['/home']);
         });
       }else{
-        this.firebase
-          .registerPart(new_part)
-          .then(() => this.router.navigate(['/home']))
-          .catch((error) => {
-            console.log(error);
-            this.alert.presentAlert('Erro', 'Erro ao salvar as partes!');
-          });
+        this.firebase.registerPart(new_part).then(() => this.router.navigate(['/home'])).catch((error) => {
+          console.log(error);
+          this.alert.presentAlert('Erro', 'Erro ao salvar as partes!');
+        });
       }
     }else{
-      this.alert.presentAlert('Erro!', 'Verifique os campos obrigatórios!');
+      this.alert.presentAlert('Erro!', 'Todos os campos são obrigatórios!');
     }
   }
   goBackPage(){

@@ -7,8 +7,8 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <form [formGroup]="registerForm" (ngSubmit)="submitForm()" novalidate>
+<ion-content fullscream="true">
+  <form [formGroup]="registerForm" (ngSubmit)="register()" novalidate>
     <ion-item>
       <ion-select label="Tipo" placeholder="Selecione o Tipo" formControlName="type">
         <ion-select-option value="0">Fonte de alimentação</ion-select-option>
@@ -57,6 +57,6 @@
       </ion-button>
     </ion-item>
     <span *ngIf="registerForm.get('imagem')?.touched && registerForm.get('imagem')?.errors?.['required']">O campo imagem é obrigatório</span>
-    <ion-button expand="full" type="submit" [disabled]="!registerForm.valid">Cadastrar</ion-button>
+    <ion-button expand="full" type="submit">Cadastrar</ion-button>
   </form>
 </ion-content>
