@@ -25,7 +25,7 @@
       <!--Mensagens de Erro-->
       <ion-button expand="full" color="success" type="submit">Entrar</ion-button>
       <ion-button expand="full" color="danger" (click)="loginWithGmail()"> Entrar com Google <ion-icon slot="end" name="logo-google"></ion-icon></ion-button>
-      <ion-button expand="full" color="dark" (click)="loginWithGithub()"> Entrar com GitHub <ion-icon slot="end" name="logo-github"></ion-icon></ion-button>
+      <ion-button expand="full" (click)="loginWithFacebook()"> Entrar com Facebook <ion-icon slot="end" name="logo-facebook"></ion-icon></ion-button>
     </form>
     <ion-label>Não tem cadastro?</ion-label>
     <a (click)="goToRegister()"> Clique Aqui!</a>

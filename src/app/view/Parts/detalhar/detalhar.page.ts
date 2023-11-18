@@ -20,11 +20,11 @@ export class DetalharPage implements OnInit {
   imagem: any;
 
   constructor(
-    private firebase: FirebaseService, private router: Router, private alert: Alert, private confirmAlert: confirmAlert, private goBack: GoBackPage, private auth: AuthService, private formBuilder: FormBuilder) {
+    private firebase: FirebaseService, private router: Router, private alert: Alert, private confirmAlert: confirmAlert, private goBack: GoBackPage, private auth: AuthService, private formBuilder: FormBuilder){
     this.user = this.auth.getUserLogged();
   }
 
-  ngOnInit() {
+  ngOnInit(){
     this.part = history.state.part;
 
     this.detailsForm = this.formBuilder.group({
@@ -37,41 +37,39 @@ export class DetalharPage implements OnInit {
     });
   }
 
-  uploadFile(event: any) {
+  uploadFile(event: any){
     this.imagem = event.target.files;
   }
 
   editPart() {
-    if (this.detailsForm.valid) {
+    if (this.detailsForm.valid){
       const new_part: Part = {...this.detailsForm.value,uid: this.user.uid,id: this.part.id,downloadURL: this.part.downloadURL};
 
       if (this.imagem) {
-        this.firebase.uploadImage(this.imagem, new_part)?.then(() => {
+        this.firebase.uploadImage(this.imagem, new_part)?.then(() =>{
           this.router.navigate(['/home'])
         });
-      } else {
+      }else{
         new_part.downloadURL = this.part.downloadURL;
 
-        this.firebase.updatePart(new_part, this.part.id).then(() => this.router.navigate(['/home'])).catch((error) => {
+        this.firebase.updatePart(new_part, this.part.id).then(() => this.router.navigate(['/home'])).catch((error) =>{
           console.log(error);
           this.alert.presentAlert('Erro', 'Erro ao atualizar a parte!');
         });
       }
-    } else {
+    }else{
       this.alert.presentAlert('Erro!', 'Verifique os campos obrigatórios!');
     }
   }
-
-
-  confirmDelete() {
-    this.confirmAlert.presentConfirmAlert('ATENÇÃO', 'Deseja realmente excluir a Parte?', (confirmed) => {
+  confirmDelete(){
+    this.confirmAlert.presentConfirmAlert('ATENÇÃO', 'Deseja realmente excluir a Parte?', (confirmed) =>{
       if(confirmed){
         this.deletePart();
       }
     });
   }
 
-  deletePart() {
+  deletePart(){
     this.firebase.deletePart(this.part.id).then(() => {
         this.router.navigate(['/home']);
       })
@@ -80,7 +78,7 @@ export class DetalharPage implements OnInit {
       });
   }
 
-  goBackPage() {
+  goBackPage(){
     this.goBack.goBackPage();
   }
 }

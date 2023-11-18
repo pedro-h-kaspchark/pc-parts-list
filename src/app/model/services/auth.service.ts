@@ -2,7 +2,7 @@ import { Injectable, NgZone } from '@angular/core';
 import { FirebaseService } from './firebase.service';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
-import { getAuth, signInWithPopup, browserPopupRedirectResolver, GoogleAuthProvider} from 'firebase/auth';
+import { getAuth, signInWithPopup, browserPopupRedirectResolver, GoogleAuthProvider, FacebookAuthProvider, UserCredential, getRedirectResult} from 'firebase/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +20,6 @@ export class AuthService {
       }
     });
   }
-
   public login(email: string, password: string){
     return this.auth.signInWithEmailAndPassword(email, password);
   }
@@ -49,4 +48,23 @@ export class AuthService {
     const auth = getAuth();
     return signInWithPopup(auth, provider, browserPopupRedirectResolver);
    }
+   public loginWithFacebook() {
+    const provider = new FacebookAuthProvider();
+    const auth = getAuth();
+    return signInWithPopup(auth, provider);
+  }
+
+  public completeFacebookLogin(): Promise<UserCredential | null>{
+    const auth = getAuth();
+    return getRedirectResult(auth).then((result) =>{
+      if(result && result.user){
+        return result as UserCredential;
+      }else{
+        return null;
+      }
+    }).catch((error) =>{
+      console.error('Error completing Facebook login:', error);
+      return Promise.reject(error);
+    });
+  } 
 }

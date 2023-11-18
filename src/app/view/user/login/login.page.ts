@@ -11,6 +11,7 @@ import { AuthService } from 'src/app/model/services/auth.service';
 })
 export class LoginPage implements OnInit {
   loginForm!: FormGroup;
+  loggingInWithFacebook = false;
 
   constructor(private router: Router, private alert: Alert, private auth: AuthService, private builder: FormBuilder){
     this.loginForm = new FormGroup({
@@ -45,17 +46,22 @@ export class LoginPage implements OnInit {
       console.log(error); })
   }
   loginWithGmail(){
-    this.auth.logInWithGoogle()
-    .then((res)=>{
+    this.auth.logInWithGoogle().then((res)=>{
       this.alert.presentAlert("OK", "Seja bem Vindo!");
-      this.router.navigate(['home']); })
-    .catch((error)=>{
+      this.router.navigate(['home']); }).catch((error)=>{
       this.alert.presentAlert("OK", "Erro ao Logar! Tente Novamente");
       console.log(error); })
   }
-  loginWithGithub(){
-    
-  }
+  loginWithFacebook(){
+    this.auth.loginWithFacebook().then((res) =>{
+      this.alert.presentAlert("OK", "Seja bem Vindo!");
+      this.router.navigate(['home']);
+    }).catch((error) =>{
+      console.error('Erro ao autenticar com o Facebook:', error);
+      this.alert.presentAlert("OK", "Erro ao Logar! Tente Novamente");
+      console.log(error);
+      });
+    }
   goToRegister(){
     this.router.navigate(["/register"]);
   }
