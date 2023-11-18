@@ -1,10 +1,10 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Bem vindo</ion-title>
+  <ion-toolbar color="tertiary">
+    <ion-title class="ion-text-center">Bem Vindo</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-padding">
   <ion-list>
     <form [formGroup]="loginForm" (ngSubmit)="submitForm()" novalidate>
       <ion-item>
@@ -25,9 +25,9 @@
       <!--Mensagens de Erro-->
       <ion-button expand="full" color="success" type="submit">Entrar</ion-button>
       <ion-button expand="full" color="danger" (click)="loginWithGmail()"> Entrar com Google <ion-icon slot="end" name="logo-google"></ion-icon></ion-button>
-      <ion-button expand="full" (click)="loginWithFacebook()"> Entrar com Facebook <ion-icon slot="end" name="logo-facebook"></ion-icon></ion-button>
+      <ion-button expand="full" color="dark" (click)="loginWithGithub()"> Entrar com GitHub <ion-icon slot="end" name="logo-github"></ion-icon></ion-button>
     </form>
-    <ion-label>Não tem cadastro?</ion-label>
-    <a (click)="goToRegister()"> Clique Aqui!</a>
+    <ion-label class="ion-text-center">Não tem cadastro?</ion-label>
+    <a (click)="goToRegister()" class="ion-text-center"> Clique Aqui!</a>
   </ion-list>
 </ion-content>
