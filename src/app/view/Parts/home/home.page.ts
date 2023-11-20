@@ -24,4 +24,10 @@ export class HomePage {
   goToDetails(part: Part){
     this.router.navigateByUrl("/detalhar", {state: {part: part}});
   }
+
+  logout(){
+    this.auth.logOut().then(() =>{
+      this.router.navigate(['login']);
+    })
+  }
 }

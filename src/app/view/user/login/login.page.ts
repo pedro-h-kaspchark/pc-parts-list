@@ -48,14 +48,14 @@ export class LoginPage implements OnInit {
   loginWithGmail(){
     this.auth.logInWithGoogle().then((res)=>{
       this.alert.presentAlert("OK", "Seja bem Vindo!");
-      this.router.navigate(['home']); }).catch((error)=>{
+      this.router.navigate(['/home']); }).catch((error)=>{
       this.alert.presentAlert("OK", "Erro ao Logar! Tente Novamente");
       console.log(error);})
   }
   loginWithGithub(){
     this.auth.loginWithGithub().then((res) => {
       this.alert.presentAlert('OK', 'Seja bem Vindo!');
-      this.router.navigate(['home']);}).catch((error) => {
+      this.router.navigate(['/home']);}).catch((error) => {
       this.alert.presentAlert('Erro', 'Erro ao Logar com o Github! Tente Novamente');
       console.log(error);});
   }

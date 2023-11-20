@@ -40,11 +40,29 @@ ion-header {
     justify-content: center;
     border-radius: 50%;
   }
+  form {
+    ion-item {
+      --background: transparent;
+      margin-bottom: 15px;
+      --border-width: 0;
+    }
+    ion-label {
+      color: #ffffff;
+    }
+    ion-input{
+      color: #ffffff;
+    }
+  
+    ion-button {
+      margin-top: 15px;
+      --border-radius: 20px;
+      overflow: hidden;
+    }
+  }
+
   
   ion-button {
     margin-top: 15px;
     --border-radius: 20px;
   }
-  
-  /* Adapte conforme necessário para outros estilos específicos */
   
