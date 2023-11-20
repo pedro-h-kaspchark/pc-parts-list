@@ -1,11 +1,50 @@
-#titulo{
-    font-size: larger;
-}
 span{
     color: red;
 }
-img{
+ion-header {
+    ion-toolbar {
+      --border-width: 0;
+      --border-color: transparent;
+    }
+  
+    ion-title {
+      padding: 15px;
+      width: 100%;
+      font-size: 1.5em;
+      margin-left: 8px;
+      display: flex;
+      align-items: center;
+      color: white;
+    }
+  }
+  
+  ion-content {
+    --background: radial-gradient(circle at bottom right, #800080, #00008b);
+    color: white;
+  }
+  
+  .form-item {
+    --background: radial-gradient(circle at bottom right, #860086, #00009b);
+    padding: 15px;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+  }
+  
+  ion-item {
+    --background: transparent;
+    --border-width: 0;
+  }
+  
+  .form-item-image {
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-}
+  }
+  
+  ion-button {
+    margin-top: 15px;
+    --border-radius: 20px;
+  }
+  
+  /* Adapte conforme necessário para outros estilos específicos */
+  
